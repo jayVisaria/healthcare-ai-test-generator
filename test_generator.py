@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import os
 import json
 import re
@@ -9,12 +9,15 @@ from typing import Dict, List, Optional
 # --- Configuration ---
 # To run this app, set your Google API key as an environment variable:
 # export GEMINI_API_KEY="YOUR_API_KEY"
-# Then run the app: streamlit run healthcare_test_generator.py
+        # Then run the app: streamlit run test_generator.py
 
 try:
     api_key = os.environ.get("GEMINI_API_KEY", "")
-    genai.configure(api_key=api_key)
-    MODEL = genai.GenerativeModel('gemini-2.5-flash')
+    if not api_key:
+        st.error("Please set your GEMINI_API_KEY environment variable.")
+        st.stop()
+    
+    client = genai.Client(api_key=api_key)
 except Exception as e:
     st.error(f"Failed to configure Google AI. Please ensure your GEMINI_API_KEY is set. Error: {e}")
     st.stop()
@@ -172,7 +175,10 @@ def generate_healthcare_test_scenarios(_user_story: str, _acceptance_criteria: s
     )
     
     try:
-        response = MODEL.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
         scenarios = safe_json_loads(response.text)
         if scenarios:
             return {"success": True, "scenarios": scenarios}
@@ -196,7 +202,10 @@ def generate_healthcare_gherkin_script(_user_story: str, _acceptance_criteria: s
     )
     
     try:
-        response = MODEL.generate_content(prompt)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
         return response.text
     except Exception as e:
         return f"Error generating Gherkin script: {e}"
