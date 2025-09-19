@@ -5,6 +5,8 @@ import json
 import re
 from datetime import datetime
 from typing import Dict, List, Optional
+from dotenv import load_dotenv
+load_dotenv()
 
 # --- Configuration ---
 # To run this app, set your Google API key as an environment variable:
