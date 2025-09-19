@@ -320,14 +320,14 @@ with col1:
         user_story_input = st.text_area(
             "Healthcare User Story / Requirement", 
             st.session_state.user_story,
-            height=120, 
+            height=170, 
             placeholder="As a [healthcare professional/patient/administrator], I want to [perform healthcare action] so that I can [achieve healthcare outcome that ensures patient safety/compliance/efficiency].\n\nExample: As a clinician, I want to access patient medication history through the EHR system so that I can make informed prescribing decisions while maintaining HIPAA compliance."
         )
         
         acceptance_criteria_input = st.text_area(
             "Acceptance Criteria",
             st.session_state.acceptance_criteria,
-            height=150,
+            height=200,
             placeholder="Given [healthcare context], when [action is performed], then [expected outcome with compliance considerations].\n\nExample:\nGiven a clinician is authenticated in the EHR system\nWhen they search for a patient's medication history\nThen the system displays complete medication records with audit trail\nAnd ensures HIPAA compliance with access logging\nAnd validates user permissions for data access"
         )
         
